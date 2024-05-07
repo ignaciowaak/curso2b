@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2; /* Fondo gris claro */
+            color: #333; /* Texto gris oscuro */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        button {
+            background-color: #fff; /* Fondo blanco */
+            color: #333; /* Texto gris oscuro */
+            border: 2px solid #333; /* Borde gris oscuro */
+            border-radius: 5px; /* Bordes redondeados */
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Transiciones suaves */
+            margin-bottom: 10px; /* Espacio entre los botones */
+        }
+
+        button:hover {
+            background-color: #333; /* Cambia de color al pasar el cursor */
+            color: #fff; /* Texto blanco */
+        }
+
+        #horarios {
+            opacity: 0; /* Oculta los horarios inicialmente */
+            transition: opacity 0.5s ease;
+            margin-top: 20px; /* Espacio entre los botones y los horarios */
+        }
+
+        #horarios.mostrar {
+            opacity: 1; /* Muestra los horarios con transición */
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none; /* Quita los puntos de la lista */
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+        }
+    </style>
+</head>
+<body>
+    <h1>Horarios de Segundo B</h1>
+    <button onclick="mostrarHorarios('lunes')">Lunes</button>
+    <button onclick="mostrarHorarios('martes')">Martes</button>
+    <button onclick="mostrarHorarios('miércoles')">Miércoles</button>
+    <button onclick="mostrarHorarios('jueves')">Jueves</button>
+    <button onclick="mostrarHorarios('viernes')">Viernes</button>
+
+    <div id="horarios">
+        <h2>Presionaste el <span id="diaSeleccionado"></span>, los horarios son:</h2>
+        <ul id="listaHorarios">
+            <!-- Aquí se mostrarán los horarios cuando se seleccione un día -->
+        </ul>
+    </div>
+
+    <script>
+        function mostrarHorarios(dia) {
+            // Mostrar el div de horarios
+            var horarios = document.getElementById('horarios');
+            horarios.classList.add('mostrar');
+            // Mostrar el día seleccionado
+            document.getElementById('diaSeleccionado').innerText = dia;
+            // Obtener el elemento de la lista de horarios
+            var listaHorarios = document.getElementById('listaHorarios');
+            // Limpiar la lista de horarios
+            listaHorarios.innerHTML = '';
+            // Array de materias para cada día
+            var materias = obtenerMateriasPorDia(dia);
+            // Agregar cada materia a la lista
+            materias.forEach(function(materia) {
+                var li = document.createElement('li');
+                li.innerText = materia;
+                listaHorarios.appendChild(li);
+            });
+        }
+
+        function obtenerMateriasPorDia(dia) {
+            // Simulación de materias por día (puedes ajustar según necesites)
+            switch (dia) {
+                case 'lunes':
+                    return ['Geografía', 'Inglés', 'Matemática'];
+                case 'martes':
+                    return ['F.E.C', 'Educ.Tec', 'Biología'];
+                case 'miércoles':
+                    return ['Princ.Bas', 'Historia', 'Química'];
+                case 'jueves':
+                    return ['Matemática', 'TGO I', 'Lengua y literatura'];
+                case 'viernes':
+                    return ['Lengua y literatura', 'Biología', 'Micro', 'Tutoría'];
+                default:
+                    return [];
+            }
+        }
+    </script>
+</body>
+</html>
