@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f5f5f5;
+            background-color: #222C53;
             margin: 0;
         }
 
@@ -46,9 +47,6 @@
         .calendar-header {
             margin-bottom: 20px;
             font-size: 1.2em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             transition: color 0.6s, background-color 0.6s, transform 0.6s;
         }
 
@@ -70,11 +68,6 @@
         .calendar div:hover {
             background-color: #e0e0e0;
             transition: background-color 0.8s, color 0.8s, transform 0.8s;
-        }
-
-        .day-name {
-            font-weight: bold;
-            transition: color 0.9s, background-color 0.9s, transform 0.9s;
         }
 
         .today {
@@ -101,18 +94,6 @@
             opacity: 1;
             transition: opacity 0.6s, transform 0.6s, color 0.6s;
         }
-
-        .nav-button {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .nav-button:hover {
-            color: #007BFF;
-        }
     </style>
 </head>
 <body>
@@ -123,21 +104,9 @@
             <span class="today-legend">Negro: Día Actual</span>
         </div>
         <div class="calendar-header">
-            <button class="nav-button" id="prev-month">&lt;</button>
-            <div>
-                <span id="month-name"></span> <span id="year"></span>
-            </div>
-            <button class="nav-button" id="next-month">&gt;</button>
+            <span id="month-name"></span> <span id="year"></span>
         </div>
-        <div class="calendar" id="calendar">
-            <div class="day-name">D</div>
-            <div class="day-name">L</div>
-            <div class="day-name">M</div>
-            <div class="day-name">M</div>
-            <div class="day-name">J</div>
-            <div class="day-name">V</div>
-            <div class="day-name">S</div>
-        </div>
+        <div class="calendar" id="calendar"></div>
         <div id="message" class="message"></div>
     </div>
     <script>
@@ -153,17 +122,12 @@
             const monthNameElement = document.getElementById('month-name');
             const yearElement = document.getElementById('year');
             const messageElement = document.getElementById('message');
-            const prevMonthButton = document.getElementById('prev-month');
-            const nextMonthButton = document.getElementById('next-month');
-
-            let currentMonth = new Date().getMonth();
-            let currentYear = new Date().getFullYear();
 
             const updateCalendar = () => {
                 const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth();
                 const today = now.getDate();
-                const month = currentMonth;
-                const year = currentYear;
 
                 const firstDay = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -176,10 +140,7 @@
                 monthNameElement.textContent = monthNames[month];
                 yearElement.textContent = year;
 
-                // Clear the calendar except for the day names
-                while (calendarElement.children.length > 7) {
-                    calendarElement.removeChild(calendarElement.lastChild);
-                }
+                calendarElement.innerHTML = '';
 
                 for (let i = 0; i < firstDay; i++) {
                     calendarElement.innerHTML += '<div></div>';
@@ -190,7 +151,7 @@
                     const dayElement = document.createElement('div');
                     dayElement.textContent = day;
 
-                    if (day === today && month === now.getMonth() && year === now.getFullYear()) {
+                    if (day === today) {
                         dayElement.classList.add('today');
                     } else if (messages[dateStr]) {
                         dayElement.classList.add('event');
@@ -201,32 +162,12 @@
                         messageElement.classList.add('show');
                         setTimeout(() => {
                             messageElement.classList.remove('show');
-                        }, 3000);
+                        }, 9000);
                     });
 
                     calendarElement.appendChild(dayElement);
                 }
             };
-
-            prevMonthButton.addEventListener('click', () => {
-                if (currentMonth === 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                } else {
-                    currentMonth--;
-                }
-                updateCalendar();
-            });
-
-            nextMonthButton.addEventListener('click', () => {
-                if (currentMonth === 11) {
-                    currentMonth = 0;
-                    currentYear++;
-                } else {
-                    currentMonth++;
-                }
-                updateCalendar();
-            });
 
             updateCalendar();
         });
